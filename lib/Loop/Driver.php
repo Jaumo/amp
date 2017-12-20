@@ -3,6 +3,7 @@
 namespace Amp\Loop;
 
 use Amp\Coroutine;
+use function Amp\Internal\formatStacktrace;
 use Amp\Promise;
 use React\Promise\PromiseInterface as ReactPromise;
 use function Amp\Promise\rethrow;
@@ -693,6 +694,9 @@ abstract class Driver
 
                 if ($watcher->referenced) {
                     ++$watchers["referenced"];
+                    if (Watcher::$DEBUG_TRACES) {
+                        $array["traces"][] = formatStacktrace($watcher->backtrace);
+                    }
                 } else {
                     ++$watchers["unreferenced"];
                 }
