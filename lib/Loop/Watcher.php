@@ -5,6 +5,10 @@ namespace Amp\Loop;
 use Amp\Struct;
 
 class Watcher {
+
+    public static $DEBUG_TRACES = false;
+    public static $DEBUG_TRACE_LIMIT = 7;
+
     use Struct;
 
     const IO = 0b00000011;
@@ -15,6 +19,12 @@ class Watcher {
     const DELAY = 0b00001000;
     const REPEAT = 0b00010000;
     const SIGNAL = 0b00100000;
+
+    public function __construct() {
+        if (self::$DEBUG_TRACES) {
+            $this->backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::$DEBUG_TRACE_LIMIT);
+        }
+    }
 
     /** @var int */
     public $type;
@@ -44,4 +54,6 @@ class Watcher {
      * @var mixed
      */
     public $value;
+
+    public $backtrace;
 }
