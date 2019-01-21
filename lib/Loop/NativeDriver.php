@@ -97,6 +97,9 @@ class NativeDriver extends Driver
             $blocking ? $this->getTimeout() : 0
         );
 
+        // MUST BE INVALIDATED HERE AS WELL! selectStreams is a blocking operation
+        $this->nowUpdateNeeded = true;
+
         if (!empty($this->timerExpires)) {
             $scheduleQueue = [];
 
